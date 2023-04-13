@@ -1,0 +1,1 @@
+create database if not exists fuel_prices default character set `utf8mb4`;
