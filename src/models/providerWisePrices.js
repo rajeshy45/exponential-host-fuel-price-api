@@ -1,8 +1,8 @@
 const sequelize = require("../db");
 const { DataTypes } = require("sequelize");
 
-const CityWisePrices = sequelize.define(
-  "city_wise_prices",
+const providerWisePrices = sequelize.define(
+  "provider_wise_prices",
   {
     id: {
       type: DataTypes.BIGINT,
@@ -10,7 +10,7 @@ const CityWisePrices = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    city: {
+    provider: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -38,4 +38,4 @@ const CityWisePrices = sequelize.define(
   }
 );
 
-module.exports = CityWisePrices;
+module.exports = providerWisePrices;
