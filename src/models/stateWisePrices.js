@@ -22,6 +22,10 @@ const StateWisePrices = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    country: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false,
