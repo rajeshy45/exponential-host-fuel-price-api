@@ -1,10 +1,10 @@
 const router = require("express").Router();
 const StateWisePricesControllers = require("../controllers/stateWisePrices");
 
-router.get("/byState", (req, res) => {
+router.get("/by-state", (req, res) => {
   StateWisePricesControllers.getRecord(req, res);
 });
 
-router.post("/byState", StateWisePricesControllers.insertRecord);
+router.post("/by-state", StateWisePricesControllers.insertRecord);
 
 module.exports = router;

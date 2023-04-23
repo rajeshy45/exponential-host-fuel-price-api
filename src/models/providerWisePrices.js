@@ -1,7 +1,7 @@
 const sequelize = require("../db");
 const { DataTypes } = require("sequelize");
 
-const providerWisePrices = sequelize.define(
+const ProviderWisePrices = sequelize.define(
   "provider_wise_prices",
   {
     id: {

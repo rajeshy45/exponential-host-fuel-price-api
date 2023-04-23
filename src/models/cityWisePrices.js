@@ -18,6 +18,10 @@ const CityWisePrices = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    state: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     country: {
       type: DataTypes.STRING,
       allowNull: false,

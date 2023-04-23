@@ -10,11 +10,7 @@ const StateWisePrices = sequelize.define(
       autoIncrement: true,
       primaryKey: true,
     },
-    state_code: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    state_name: {
+    state: {
       type: DataTypes.STRING,
       allowNull: false,
     },
