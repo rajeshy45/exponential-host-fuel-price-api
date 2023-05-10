@@ -1,5 +1,5 @@
 const sequelize = require("../db");
-const moment = require('moment');
+const moment = require("moment");
 const { DataTypes } = require("sequelize");
 
 const CityWisePrices = sequelize.define(
@@ -19,22 +19,23 @@ const CityWisePrices = sequelize.define(
       type: DataTypes.FLOAT,
       allowNull: false,
     },
-    state: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     country: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'india',
+      defaultValue: "india",
+    },
+    fuel: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "petrol",
     },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false,
       defaultValue: DataTypes.NOW,
-      get: function() {
-        return moment.utc(this.getDataValue('date')).format('YYYY-MM-DD');
-      }
+      get: function () {
+        return moment.utc(this.getDataValue("date")).format("YYYY-MM-DD");
+      },
     },
     last_updated: {
       type: DataTypes.DATE,

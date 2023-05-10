@@ -24,6 +24,11 @@ const StateWisePrices = sequelize.define(
       allowNull: false,
       defaultValue: 'india',
     },
+    fuel: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "petrol",
+    },
     date: {
       type: DataTypes.DATEONLY,
       allowNull: false,
