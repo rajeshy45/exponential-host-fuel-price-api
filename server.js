@@ -9,8 +9,8 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use("/api/fuel-prices", StateWisePricesRouter);
-app.use("/api/fuel-prices", CityWisePricesRouter);
+app.use("/api/v1", StateWisePricesRouter);
+app.use("/api/v1", CityWisePricesRouter);
 
 // endpoint to check whether server is running or not
 app.get("/isup", (req, res) => {

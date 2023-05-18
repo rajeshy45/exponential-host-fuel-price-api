@@ -1,3 +1,6 @@
+
+-- SQL query for creating city wise prices table
+
 CREATE TABLE `city_wise_prices` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `city` varchar(255) NOT NULL,

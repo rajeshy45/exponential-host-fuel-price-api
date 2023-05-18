@@ -3,9 +3,11 @@ const puppeteer = require("puppeteer");
 const utils = require("../utils");
 
 const CityWisePrices = {
+  // controller to update or add new prices of current day to city wise prices db
   refreshDB: async (req, res) => {
     const url = "https://www.ndtv.com/fuel-prices/";
 
+    // scraping prices using puppeteer
     const browser = await puppeteer.launch({
       headless: true,
       defaultViewport: null,
@@ -48,6 +50,7 @@ const CityWisePrices = {
           let price = await (await td.getProperty("textContent")).jsonValue();
           price = Number(price.split(" ")[1]);
 
+          // deleting older prices
           await CityWisePricesModel.destroy({
             where: {
               city,
@@ -56,6 +59,7 @@ const CityWisePrices = {
             },
           });
 
+          // inserting new prices
           await CityWisePricesModel.create({
             city,
             fuel,
@@ -72,6 +76,7 @@ const CityWisePrices = {
     res.status(201).send();
   },
 
+  // controller to retrieve prices from the database
   getRecord: async (req, res) => {
     let query = req.query;
     console.log(query);
@@ -88,38 +93,7 @@ const CityWisePrices = {
     res.json(utils.mapOutput(records));
   },
 
-  getRecordFromSrc: async (req, res) => {
-    let query = req.query;
-    console.log(query);
-
-    const url =
-      "https://www.ndtv.com/fuel-prices/" +
-      query.fuel +
-      "-price-in-" +
-      query.city +
-      "-city";
-
-    const browser = await puppeteer.launch({
-      headless: true,
-      defaultViewport: null,
-    });
-
-    const page = await browser.newPage();
-
-    await page.goto(url, {
-      waitUntil: "domcontentloaded",
-    });
-
-    res.json(
-      await page.evaluate(() => {
-        const price = document.querySelector(".prcContnr span").innerText;
-
-        console.log(price);
-        return { price };
-      })
-    );
-  },
-
+  // controller to add records to the database
   insertRecord: async (req, res) => {
     let data = req.body;
     console.log(data);

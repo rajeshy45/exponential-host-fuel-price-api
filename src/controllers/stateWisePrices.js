@@ -3,9 +3,11 @@ const puppeteer = require("puppeteer");
 const utils = require("../utils");
 
 const StateWisePrices = {
+   // controller to update or add new prices of current day to state wise prices db
   refreshDB: async (req, res) => {
     const url = "https://www.ndtv.com/fuel-prices/";
 
+    // scraping prices using puppeteer
     const browser = await puppeteer.launch({
       headless: true,
       defaultViewport: null,
@@ -48,6 +50,7 @@ const StateWisePrices = {
           let price = await (await td.getProperty("textContent")).jsonValue();
           price = Number(price.split(" ")[1]);
 
+          // deleting older prices
           await StateWisePricesModel.destroy({
             where: {
               state,
@@ -56,6 +59,7 @@ const StateWisePrices = {
             },
           });
 
+          // adding new prices
           await StateWisePricesModel.create({
             state,
             fuel,
@@ -74,6 +78,7 @@ const StateWisePrices = {
     res.status(201).send();
   },
 
+  // controller to retrieve prices from the database
   getRecord: async (req, res) => {
     let query = req.query;
     console.log(query);
@@ -90,6 +95,7 @@ const StateWisePrices = {
     res.json(utils.mapOutput(records));
   },
 
+  // controller to add records to the database
   insertRecord: async (req, res) => {
     let data = req.body;
     console.log(data);

@@ -1,5 +1,7 @@
 
 const utils = {
+  // input - andhra-pradesh
+  // output - Andhra Pradesh
   getDisplayName: function (name) {
     let names = name.split('-');
     for (let i = 0; i < names.length; i++) {

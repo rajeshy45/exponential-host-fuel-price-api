@@ -1,0 +1,226 @@
+openapi: 3.0.3
+info:
+  title: Fuel Price API - OpenAPI 3.0
+  description: |-
+    API for retrieving fuel price in various states and cities of India.
+    
+  termsOfService: https://www.exponentialhost.com/terms
+  contact:
+    email: support@exponentialhost.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Exponential Host
+  url: https://www.exponentialhost.com/
+servers:
+  - url: https://fuel-prices.exponentialhost.com/api/v1
+  - url: http://localhost:5000/api/v1
+tags:
+  - name: state wise prices
+    description: Retrieve the fuel prices state wise
+  - name: city wise prices
+    description: Retrieve the fuel prices state wise
+paths:
+  /by-state:
+    get:
+      tags:
+        - state wise prices
+      summary: Get state wise fuel prices
+      description: Filters can be applied using queries. If no query is provided, prices of all states will be returned.
+      operationId: getStateWisePrices
+      parameters:
+        - name: state
+          in: query
+          description: Name of the state that need to be considered for filter (eg:- andhra-pradesh)
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: Date for which the fuel prices are to be retrieved (eg:- 2023-05-15)
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: country
+          in: query
+          description: Name of the country that need to be considered for filter (eg:- india)
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: fuel
+          in: query
+          description: Type of the fuel that need to be considered for filter (eg:- petrol/diesel)
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StateWisePrice'          
+        '404':
+          description: Not found
+    post:
+      tags:
+        - state wise prices
+      summary: Adds new record to state wise prices database.
+      description: 'Adds new record to state wise prices database.'
+      operationId: insertIntoStateWisePrices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StateWisePrice'  
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StateWisePrice'  
+  /by-state/refresh:
+    get:
+      tags:
+        - state wise prices
+      summary: Refresh the database of state wise prices
+      description: Update or add new prices for current day.
+      operationId: refreshStateWisePrices
+      responses:
+        '201':
+          description: created
+          
+          
+  /by-city:
+    get:
+      tags:
+        - city wise prices
+      summary: Get city wise fuel prices
+      description: Filters can be applied using queries. If no query is provided, prices of all cities will be returned.
+      operationId: getCityWisePrices
+      parameters:
+        - name: city
+          in: query
+          description: Name of the city that need to be considered for filter (eg:- krishna)
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: date
+          in: query
+          description: Date for which the fuel prices are to be retrieved (eg:- 2023-05-15)
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: country
+          in: query
+          description: Name of the country that need to be considered for filter (eg:- india)
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: fuel
+          in: query
+          description: Type of the fuel that need to be considered for filter (eg:- petrol/diesel)
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CityWisePrice'          
+        '404':
+          description: Not found
+    post:
+      tags:
+        - city wise prices
+      summary: Adds new record to city wise prices database.
+      description: 'Adds new record to city wise prices database.'
+      operationId: insertIntoCityWisePrices
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CityWisePrice'  
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CityWisePrice'  
+  /by-city/refresh:
+    get:
+      tags:
+        - city wise prices
+      summary: Refresh the database of city wise prices
+      description: Update or add new prices for current day.
+      operationId: refreshCityWisePrices
+      responses:
+        '201':
+          description: created
+components:
+  schemas:
+    StateWisePrice:
+      type: object
+      properties:
+        state:
+          type: string
+          example: 'Andhra Pradesh'
+        date:
+          type: string
+          format: date
+        fuel:
+          type: string
+          example: 'Petrol'
+        price:
+          type: number
+          description: price of fuel
+          example: 111.11
+        country:
+          type: string
+          example: 'India'
+    CityWisePrice:
+      type: object
+      properties:
+        city:
+          type: string
+          example: 'Krishna'
+        date:
+          type: string
+          format: date
+        fuel:
+          type: string
+          example: 'Petrol'
+        price:
+          type: number
+          description: price of fuel
+          example: 111.11
+        country:
+          type: string
+          example: 'India'
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
